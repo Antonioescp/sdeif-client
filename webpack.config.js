@@ -3,6 +3,7 @@ const path = require('path');
 
 const backendConfig = {
     target: 'electron-main',
+    watch: true,
     entry: {
         main: './src/main.ts'
     },
@@ -23,6 +24,7 @@ const backendConfig = {
 const frontendConfig = {
     target: 'electron-renderer',
     devtool: 'inline-source-map',
+    watch: true,
     entry: {
         renderer: './src/renderer.tsx'
     },

@@ -10,7 +10,7 @@ const appContainer = document.getElementById('app');
 
 const App: FC = () => {
 
-    const [dataSourceConnected, setDataSourceConnected] = useState(false);
+    const [dataSourceConnected, setDataSourceConnected] = useState<Boolean | null>(null);
 
     useEffect(() => {
         appDataSource.initialize()
@@ -20,15 +20,17 @@ const App: FC = () => {
             })
             .catch(err => {
                 console.log('couldnt connect', err);
-                setDataSourceConnected(false);
+                setDataSourceConnected(null);
             });
     }, []);
-
+    
     return <div>
         {
-            dataSourceConnected 
-                ? <ComponentTester />
-                : <h1>Loading database</h1>
+            dataSourceConnected === null
+                ? <h1>Loading database</h1>
+                : dataSourceConnected === false 
+                    ? <h1>No es posible crear una conexion con la base de datos</h1>
+                    : <ComponentTester />
         }
     </div>
 };

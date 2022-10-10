@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import { watch } from 'fs';
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -12,9 +13,13 @@ function createWindow() {
 
     win.webContents.openDevTools();
     win.loadFile('./dist/index.html');
+    return win;
 }
 
 app.whenReady().then(() => {
-    createWindow();
+    const win = createWindow();
     console.log("Electron application started");
+    watch('./dist', (eventType, filename) => {
+        win.reload();
+    });
 });

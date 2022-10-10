@@ -4,16 +4,17 @@
   "description": "",
   "main": "dist/main.bundle.js",
   "scripts": {
-    "build:dev": "webpack --mode development",
+    "build": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --mode development && electron .",
-    "start:prod": "webpack --mode production && electron ."
+    "start": "concurrently -k \"webpack --mode development\" \"electron .\"",
+    "start:prod": "webpack --mode production electron ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "concurrently": "^7.4.0",
     "css-loader": "^6.7.1",
     "electron": "^21.1.0",
     "pg": "^8.8.0",
