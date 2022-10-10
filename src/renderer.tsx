@@ -5,13 +5,14 @@ import appDataSource from './services/DataSource';
 import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import NewBrand from './components/NewBrand';
-
 import { store } from './store';
 import { Provider } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ConnectionStatus, updateConnectionStatus } from './store/Database';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Navbar from './components/Navbar';
 
 import './renderer.css';
 
@@ -34,8 +35,17 @@ const App: FC = () => {
     }, []);
     
     return <>
-        <NewBrand />
-    </>
+        <Router>
+            <Navbar />
+            <main>
+                <Routes>
+                    <Route path='/people' element={ <h1>Hello people</h1> }/>
+                    <Route path='/meds' element={ <h1>Hello meds</h1> }/>
+                    <Route path='/sales' element={ <h1>Hello sales</h1> }/>
+                </Routes>
+            </main>
+        </Router>
+    </>;
 };
 
 if (appContainer) {

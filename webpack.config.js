@@ -13,7 +13,7 @@ const backendConfig = {
     },
     module: {
         rules: [
-            { test: /(\.tsx?)$/, use: 'ts-loader' }
+            { test: /(\.tsx?)$/, use: 'ts-loader' },
         ]
     },
     resolve: {
@@ -40,7 +40,7 @@ const frontendConfig = {
         rules: [
             { test: /(\.tsx?)$/, use: 'ts-loader' },
             { test: /(\.css)$/, use: ['style-loader', 'css-loader'] },
-            { test: /\.png$/, type: 'asset/resource' },
+            { test: /\.(png|jpe?g|svg|gif)$/, type: 'asset/inline' },
             { test: /\.html$/, type: 'asset/resource' }
         ]
     },
