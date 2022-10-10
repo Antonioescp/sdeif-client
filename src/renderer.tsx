@@ -3,8 +3,9 @@ import appDataSource from './services/DataSource';
 
 import React, { FC, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-
-import ComponentTester from './components/ComponentTester';
+import NewBrand from './components/NewBrand';
+import MessageScreen from './components/MessageScreen';
+import './renderer.css';
 
 const appContainer = document.getElementById('app');
 
@@ -24,15 +25,15 @@ const App: FC = () => {
             });
     }, []);
     
-    return <div>
+    return <>
         {
             dataSourceConnected === null
-                ? <h1>Loading database</h1>
+                ? <MessageScreen msg={'Creando conexion...'} />
                 : dataSourceConnected === false 
-                    ? <h1>No es posible crear una conexion con la base de datos</h1>
-                    : <ComponentTester />
+                    ? <MessageScreen msg={'No es posible conectar'} />
+                    : <NewBrand />
         }
-    </div>
+    </>
 };
 
 if (appContainer) {
