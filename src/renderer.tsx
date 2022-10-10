@@ -20,7 +20,7 @@ const App: FC = () => {
             })
             .catch(err => {
                 console.log('couldnt connect', err);
-                setDataSourceConnected(null);
+                setDataSourceConnected(false);
             });
     }, []);
     
