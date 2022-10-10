@@ -1,44 +1,50 @@
-// este debe ir de primero por el 'reflect-metadata'
+// este debe ir de primero por el 'reflect-metadata', se necesita para que los decoradores
+// de typeorm funcionen correctamente
 import appDataSource from './services/DataSource';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
+
 import NewBrand from './components/NewBrand';
-import MessageScreen from './components/MessageScreen';
+
+import { store } from './store';
+import { Provider } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { ConnectionStatus, updateConnectionStatus } from './store/Database';
+
 import './renderer.css';
 
 const appContainer = document.getElementById('app');
 
 const App: FC = () => {
 
-    const [dataSourceConnected, setDataSourceConnected] = useState<Boolean | null>(null);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         appDataSource.initialize()
             .then(() => {
                 console.log('data source connected');
-                setDataSourceConnected(true);
+                dispatch(updateConnectionStatus(ConnectionStatus.Active));
             })
             .catch(err => {
                 console.log('couldnt connect', err);
-                setDataSourceConnected(false);
+                dispatch(updateConnectionStatus(ConnectionStatus.Error));
             });
     }, []);
     
     return <>
-        {
-            dataSourceConnected === null
-                ? <MessageScreen msg={'Creando conexion...'} />
-                : dataSourceConnected === false 
-                    ? <MessageScreen msg={'No es posible conectar'} />
-                    : <NewBrand />
-        }
+        <NewBrand />
     </>
 };
 
 if (appContainer) {
     const root = ReactDOM.createRoot(appContainer);
-    root.render( <App /> );
+    root.render(
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
 }
 else {
     console.error('Error al crear frontend React: Elemento con id "app" no encontrado');

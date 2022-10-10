@@ -1,9 +1,16 @@
 import React, { FC, useState } from 'react';
 import { Brand } from '../../model';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+
+import MessageScreen from '../MessageScreen';
+import { ConnectionStatus } from '../../store/Database';
+
 const NewBrand: FC = () => {
 
     const [brandName, setBrandName] = useState('');
+    const databaseConnection = useSelector((state: RootState) => state.database.connection);
 
     const onCreate = (e: React.MouseEvent) => {
         const newBrand = new Brand();
@@ -21,11 +28,19 @@ const NewBrand: FC = () => {
         setBrandName(e.target.value.toString());
     };
 
-    return <div>
+    const view = <>
         <label htmlFor="">Nombre de marca: </label>
         <input type="text" value={brandName} onChange={onChangeBrandInput} />
         <button onClick={onCreate}>Create</button>
-    </div>;
+    </>;
+ 
+    return <div>
+        {   
+            databaseConnection === ConnectionStatus.Active
+            ? view
+            : <MessageScreen msg={'Not connected to database'} />
+        }
+    </div>
 }
 
 export default NewBrand;
