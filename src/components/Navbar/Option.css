@@ -1,5 +1,4 @@
 nav ul li {
-    border: solid silver 1px;
     height: 100%;
     width: min-content;
     display: flex;
@@ -10,7 +9,10 @@ nav ul li {
 
 nav ul li:hover {
     cursor: pointer;
-    background-color: silver;
+    border-radius: 10px;
+    width: 90%;
+    background: rgba(0, 132, 254, 0.36);
+    ;
 }
 
 nav ul li img {
