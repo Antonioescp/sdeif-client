@@ -13,6 +13,7 @@ import { ConnectionStatus, updateConnectionStatus } from './store/Database';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+import ClienteForm from './components/Clientes';
 
 import './renderer.css';
 
@@ -39,7 +40,7 @@ const App: FC = () => {
             <Navbar />
             <main>
                 <Routes>
-                    <Route path='/people' element={<h1>Hello people</h1>} />
+                    <Route path='/people' element={<ClienteForm />} />
                     <Route path='/meds' element={<h1>Hello meds</h1>} />
                     <Route path='/sales' element={<h1>Hello sales</h1>} />
                     <Route path='/employees' element={<h1>Hello employees</h1>} />

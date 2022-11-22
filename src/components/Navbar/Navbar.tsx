@@ -18,25 +18,25 @@ const Navbar: FC = () => {
                 imgSrc={peopleIcon}
                 imgAlt='people'
                 linkTo='people'
-                info='Clients'
+                info='Clientes'
             />
             <Option
                 imgSrc={employeeIcon}
                 imgAlt='Employee'
                 linkTo='employees'
-                info='Employees'
+                info='Trabajadores'
             />
             <Option
                 imgSrc={medsIcon}
                 imgAlt='meds'
                 linkTo='meds'
-                info='Medications'
+                info='Productos'
             />
             <Option
                 imgSrc={salesIcon}
                 imgAlt='sales'
                 linkTo='sales'
-                info='Transactions'
+                info='Transacciones'
             />
         </ul>
     </nav >;
