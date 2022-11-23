@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import '../style/ClienteForm.css';
+import './EmpleadoForm.css';
 
 
-const ClienteForm: FC = () => {
+const EmpleadoForm: FC = () => {
     return (
         <div className="cliente-form">
             <form action='#'>
-                <h1>Clientes</h1>
+                <h1>Empleados</h1>
                 <label>
                     Nombre:
                     <input type="text" name='Nombre' placeholder="Juan" />
@@ -35,10 +36,14 @@ const ClienteForm: FC = () => {
                     Casa:
                     <input type="text" name='Casa' placeholder="X-24" />
                 </label>
+                <label>
+                    Fecha Contrato:
+                    <input type="date" name='Fcont' />
+                </label>
                 <button type='submit'>Guardar</button>
             </form>
         </div>
     );
 };
 
-export default ClienteForm;
+export default EmpleadoForm;
