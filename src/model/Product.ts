@@ -12,46 +12,56 @@ import { Laboratory } from './Laboratory';
 import { Medication } from './Medication';
 import { ProductToTransaction } from './ProductToTransaction';
 import { Supply } from './Supply';
+import { IsPositive, Min } from 'class-validator';
 
 @Entity()
 export class Product extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @ManyToOne(type => Laboratory, (l: Laboratory) => l.products, {
-        cascade: true
+        cascade: true,
+        nullable: false
     })
     @JoinColumn()
-    laboratory!: Laboratory;
+    laboratory: Laboratory;
 
     @Column({
-        type: 'decimal'
+        type: 'decimal',
+        nullable: false
     })
-    currentPrice!: number;
+    @IsPositive({
+        message: "El precio debe ser un numero positivo"
+    })
+    currentPrice: number;
 
     @Column({
-        type: 'integer'
+        type: 'integer',
+        nullable: false
     })
-    units!: number;
+    @IsPositive({
+        message: "La cantidad de unidades debe ser un numero positivo"
+    })
+    units: number;
 
     @OneToMany(type => ProductToTransaction, (ptt: ProductToTransaction) => ptt.product, {
         cascade: true
     })
-    productToTransactions!: ProductToTransaction[];
+    productToTransactions: ProductToTransaction[];
 
     @OneToMany(type => DistributorToProduct, (dtp: DistributorToProduct) => dtp.product, {
         cascade: true
     })
-    distributorToProducts!: DistributorToProduct[];
+    distributorToProducts: DistributorToProduct[];
 
     @OneToMany(type => Supply, (s: Supply) => s.product, {
         cascade: true
     })
-    supplies!: Supply[];
+    supplies: Supply[];
 
     @OneToMany(type => Medication, (m: Medication) => m.product, {
         cascade: true
     })
-    medications!: Medication[];
+    medications: Medication[];
 }

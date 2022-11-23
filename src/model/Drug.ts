@@ -6,15 +6,22 @@ import {
     OneToMany
 } from 'typeorm';
 import { DrugToMedication } from './DrugToMedication';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class Drug extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @Column()
-    name!: string;
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @IsNotEmpty({
+        message: "El nombre del farmaco no puede estar vacio"
+    })
+    name: string;
 
     @OneToMany(type => DrugToMedication, (dtm: DrugToMedication) => dtm.drug, {
         cascade: true

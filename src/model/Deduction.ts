@@ -7,28 +7,37 @@ import {
     JoinColumn
 } from 'typeorm';
 import { Employee } from './Employee';
+import { IsPositive } from 'class-validator';
 
 @Entity()
 export class Deduction extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Employee, (e: Employee) => e.deductions)
+    @ManyToOne(type => Employee, (e: Employee) => e.deductions, {
+        nullable: false
+    })
     @JoinColumn()
-    employee!: Employee;
+    employee: Employee;
 
     @Column({
-        type: 'decimal'
+        type: 'decimal',
+        nullable: false
     })
-    amount!: number;
+    @IsPositive({
+        message: "El monto a deducir debe ser un numero positivo"
+    })
+    amount: number;
 
     @Column({
-        type: 'date'
+        type: 'date',
+        nullable: false
     })
-    appliedAt!: Date;
+    appliedAt: Date;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: false
     })
-    description!: string;
+    description: string;
 }

@@ -14,11 +14,13 @@ import { Refund } from './Refund';
 @Entity()
 export class Transaction extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Customer, (c: Customer) => c.transactions)
+    @ManyToOne(type => Customer, (c: Customer) => c.transactions, {
+        nullable: false
+    })
     @JoinColumn()
-    customer!: Customer;
+    customer: Customer;
 
     @OneToMany(type => Purchase, (p: Purchase) => p.transaction)
     purchases: Purchase[];
@@ -27,5 +29,5 @@ export class Transaction extends BaseEntity {
     refunds: Refund[];
 
     @OneToMany(type => ProductToTransaction, (ptt: ProductToTransaction) => ptt.transaction)
-    productToTransactions!: ProductToTransaction[]
+    productToTransactions: ProductToTransaction[]
 }

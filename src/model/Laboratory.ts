@@ -6,15 +6,22 @@ import {
     OneToMany
 } from 'typeorm';
 import { Product } from './Product';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class Laboratory extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @Column()
-    name!: string;
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @IsNotEmpty({
+        message: "El nombre no puede estar vacio"
+    })
+    name: string;
 
     @OneToMany(type => Product, (p: Product) => p.laboratory)
     products: Product[];

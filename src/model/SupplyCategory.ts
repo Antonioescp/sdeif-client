@@ -2,20 +2,26 @@ import {
     Entity, 
     Column, 
     BaseEntity, 
-    PrimaryGeneratedColumn, 
-    ManyToOne,
+    PrimaryGeneratedColumn,
     OneToMany
 } from 'typeorm';
 import { Supply } from './Supply';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class SupplyCategory extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @Column()
-    name!: string;
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @IsNotEmpty({
+        message: "El nombre de la categoria de insumo no puede estar vacia"
+    })
+    name: string;
 
     @OneToMany(type => Supply, (s: Supply) => s.category)
     supplies: Supply[]

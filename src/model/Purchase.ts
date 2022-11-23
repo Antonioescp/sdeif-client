@@ -11,9 +11,11 @@ import { Transaction } from './Transaction';
 export class Purchase extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Transaction, (t: Transaction) => t.purchases)
+    @ManyToOne(type => Transaction, (t: Transaction) => t.purchases, {
+        nullable: false
+    })
     @JoinColumn()
-    transaction!: Transaction;
+    transaction: Transaction;
 }

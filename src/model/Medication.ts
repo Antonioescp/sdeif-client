@@ -17,27 +17,40 @@ import { Product } from './Product';
 export class Medication extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    public id!: number;
+    public id: number;
 
-    @Column()
-    public requiresPrescription!: boolean;
+    @Column({
+        type: 'bool',
+        nullable: false
+    })
+    public requiresPrescription: boolean;
 
-    @ManyToOne(type => Product, (p: Product) => p.medications)
+    @ManyToOne(type => Product, (p: Product) => p.medications, {
+        nullable: false
+    })
     @JoinColumn()
-    product!: Product;
+    product: Product;
 
-    @ManyToOne(type => AdministrationRoute, (ar: AdministrationRoute) => ar.medications)
+    @ManyToOne(type => AdministrationRoute, (ar: AdministrationRoute) => ar.medications, {
+        nullable: false
+    })
     @JoinColumn()
-    administrationRoute!: AdministrationRoute;
+    administrationRoute: AdministrationRoute;
 
-    @ManyToOne(type => DrugForm, (df: DrugForm) => df.medications)
+    @ManyToOne(type => DrugForm, (df: DrugForm) => df.medications, {
+        nullable: false
+    })
     @JoinColumn()
-    drugForm!: DrugForm;
+    drugForm: DrugForm;
 
-    @ManyToOne(type => Brand, (b: Brand) => b.medications)
+    @ManyToOne(type => Brand, (b: Brand) => b.medications, {
+        nullable: false
+    })
     @JoinColumn()
-    brand!: Brand;
+    brand: Brand;
 
-    @OneToMany(type => DrugToMedication, (dtm: DrugToMedication) => dtm.medication)
-    drugToMedications!: DrugToMedication[];
+    @OneToMany(type => DrugToMedication, (dtm: DrugToMedication) => dtm.medication, {
+        nullable: false
+    })
+    drugToMedications: DrugToMedication[];
 }

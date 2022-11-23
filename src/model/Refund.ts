@@ -8,19 +8,26 @@ import {
     OneToMany
 } from 'typeorm';
 import { Transaction } from './Transaction';
+import { MinLength } from 'class-validator';
 
 @Entity()
 export class Refund extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Transaction, (t: Transaction) => t.refunds)
+    @ManyToOne(type => Transaction, (t: Transaction) => t.refunds, {
+        nullable: false
+    })
     @JoinColumn()
-    transaction!: Transaction;
+    transaction: Transaction;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: false
     })
-    description!: string;
+    @MinLength(4, {
+        message: "La descripcion es muy corta"
+    })
+    description: string;
 }

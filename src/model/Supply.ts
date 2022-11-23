@@ -8,21 +8,32 @@ import {
 } from 'typeorm';
 import { Product } from './Product';
 import { SupplyCategory } from './SupplyCategory';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class Supply extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Product, (p: Product) => p.supplies)
+    @ManyToOne(type => Product, (p: Product) => p.supplies, {
+        nullable: false
+    })
     @JoinColumn()
-    product!: Product;
+    product: Product;
 
-    @ManyToOne(type => SupplyCategory, (sc: SupplyCategory) => sc.supplies)
+    @ManyToOne(type => SupplyCategory, (sc: SupplyCategory) => sc.supplies, {
+        nullable: false
+    })
     @JoinColumn()
-    category!: SupplyCategory;
+    category: SupplyCategory;
 
-    @Column()
-    name!: string;
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @IsNotEmpty({
+        message: "El nombre del insumo no puede estar vacio"
+    })
+    name: string;
 }

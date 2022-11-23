@@ -13,11 +13,13 @@ import { Transaction } from './Transaction';
 @Entity()
 export class Customer extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Person, (p: Person) => p.customers)
+    @ManyToOne(type => Person, (p: Person) => p.customers, {
+        nullable: false
+    })
     @JoinColumn()
-    person!: Person;
+    person: Person;
 
     @OneToMany(type => Transaction, (t: Transaction) => t.customer)
     transactions: Transaction[];

@@ -8,28 +8,46 @@ import {
 
 import { Product } from './Product';
 import { Transaction } from './Transaction';
+import { Min, IsPositive } from 'class-validator'
 
 @Entity()
 export class ProductToTransaction extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    public id!: number;
-
-    @Column()
-    public productId!: number;
-
-    @Column()
-    public transactionId!: number;
+    public id: number;
 
     @Column({
-        type: 'integer'
+        type: 'integer',
+        nullable: false
     })
-    public quantity!: number;
+    public productId: number;
 
     @Column({
-        type: 'decimal'
+        type: 'integer',
+        nullable: false
     })
-    public price!: number;
+    public transactionId: number;
+
+    @Column({
+        type: 'integer',
+        nullable: false
+    })
+    @Min(1, {
+        message: "La cantidad no puede ser 0"
+    })
+    @IsPositive({
+        message: "La cantidad no puede ser negativa"
+    })
+    public quantity: number;
+
+    @Column({
+        type: 'decimal',
+        nullable: false
+    })
+    @IsPositive({
+        message: "El precio no puede ser negativo"
+    })
+    public price: number;
 
     @ManyToOne(type => Product, (p: Product) => p.productToTransactions)
     product: Product;

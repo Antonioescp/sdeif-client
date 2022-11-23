@@ -10,26 +10,46 @@ import {
 import { Address } from "./Address";
 import { Customer } from "./Customer";
 import { Employee } from "./Employee";
+import { MinLength } from 'class-validator';
 
 @Entity()
 export class Person extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @MinLength(1, {
+        message: "El nombre no puede estar vacio"
+    })
     name: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    @MinLength(1, {
+        message: "El apellido no puede estar vacio"
+    })
     lastname: string;
 
-    @Column()
-    phoneNumber: string;
+    @Column({
+        type: 'varchar',
+        nullable: true
+    })
+    @MinLength(8, {
+        message: "El numero de telefono no puede estar vacio"
+    })
+    phoneNumber: string | null;
 
     @ManyToOne(type => Address, (address: Address) => address.people, {
-        cascade: true
+        cascade: true,
+        nullable: true
     })
     @JoinColumn()
-    address: Address;
+    address: Address | null;
 
     @OneToMany(type => Employee, (employee: Employee) => employee.person, {
         cascade: true

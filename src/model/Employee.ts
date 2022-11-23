@@ -10,29 +10,38 @@ import {
 import { Deduction } from './Deduction';
 import { EmployeePosition } from './EmployeePosition';
 import { Person } from './Person';
+import { IsDate } from 'class-validator';
 
 @Entity()
 export class Employee extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
-    @ManyToOne(type => Person, (p: Person) => p.employees)
+    @ManyToOne(type => Person, (p: Person) => p.employees, {
+        nullable: false
+    })
     @JoinColumn()
-    person!: Person;
+    person: Person;
 
-    @ManyToOne(type => EmployeePosition, (ep: EmployeePosition) => ep.employees)
+    @ManyToOne(type => EmployeePosition, (ep: EmployeePosition) => ep.employees, {
+        nullable: false
+    })
     @JoinColumn()
-    position!: EmployeePosition;
+    position: EmployeePosition;
 
     @Column({
-        type: "date"
+        type: "date",
+        nullable: false
     })
-    hiringDate!: Date;
+    @IsDate()
+    hiringDate: Date;
 
     @Column({
-        type: "date"
+        type: "date",
+        nullable: true
     })
-    dismissalDate: Date;
+    @IsDate()
+    dismissalDate: Date | null;
 
     @OneToMany(type => Deduction, (d: Deduction) => d.employee)
     deductions: Deduction[];
