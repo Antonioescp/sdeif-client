@@ -16,14 +16,18 @@ interface ModelListProperties {
     modelName: string,
     model: EntityTarget<ObjectLiteral>,
     customColumns?: Record<string, string>,
-    onEdit?: (item: BaseEntity) => void
+    onEdit?: (item: BaseEntity) => void,
+    onDelete?: (item: any) => void,
+    onDeleted?: (item: any) => void
 }
 
 const ModelList: FC<ModelListProperties> = ({
     modelName,
     model,
     customColumns,
-    onEdit
+    onEdit,
+    onDelete,
+    onDeleted
 }) => {
 
     const databaseConnection = useSelector((state: RootState) => state.database.connection);
@@ -83,16 +87,26 @@ const ModelList: FC<ModelListProperties> = ({
 
         const modelProperties = getModelProperties();
         const rowItems = modelProperties.map(prop => {
+            const itemProp = item[prop];
+            let value: string;
+            if (itemProp) {
+                if (itemProp instanceof Date) {
+                    value = itemProp.toLocaleDateString();
+                } else {
+                    value = itemProp.toString();
+                }
+            }
+            else {
+                value = "Sin definir";
+            }
+
             return <td>
-                {item[prop]}
+                {value}
             </td>;
         });
 
-        const onDelete = async () => {
-            await item.remove();
-        };
-
-        const onDeleted = async () => {
+        const onDeletionCompleted = async () => {
+            await onDeleted?.call(this, item);
             setItems(await getAllItems());
         }
 
@@ -102,14 +116,14 @@ const ModelList: FC<ModelListProperties> = ({
                 <ButtonGroup aria-label="Opciones">
                     <Button
                         variant="success"
-                        onClick={() => onEdit ? onEdit(item) : null}
+                        onClick={async () => onEdit ? await onEdit(item) : null}
                     >
                         Editar
                     </Button>
                     <ActionButton
                         variant="danger"
-                        action={onDelete}
-                        onComplete={onDeleted}
+                        action={async () => onDelete ? await onDelete(item) : null}
+                        onComplete={onDeletionCompleted}
                     >
                         Borrar
                     </ActionButton>

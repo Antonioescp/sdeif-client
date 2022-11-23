@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import * as models from '../model';
+import * as views from '../model/views';
 
 const appDataSource = new DataSource({
     type: "postgres",
@@ -11,7 +12,10 @@ const appDataSource = new DataSource({
     database: "Farma",
     synchronize: true,
     logging: false,
-    entities: Object.values(models),
+    entities: [
+        ...Object.values(models),
+        ...Object.values(views)
+    ],
     subscribers: [],
     migrations: [],
 });

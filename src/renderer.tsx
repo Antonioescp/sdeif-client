@@ -17,11 +17,10 @@ import ClienteForm from './components/Clientes';
 import EmpleadoForm from './components/Empleado';
 import ModelList from './components/ModelList';
 
-import { Address } from './model';
+import { AllEmployees } from './model/views';
 
 import './renderer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BaseEntity } from 'typeorm';
 
 const appContainer = document.getElementById('app');
 
@@ -41,6 +40,10 @@ const App: FC = () => {
             });
     }, []);
 
+    const deleteEmployee = async (item: any) => {
+        console.log("Delete clicked with", item);
+    }
+
     return <>
         <Router>
             <Navbar />
@@ -49,15 +52,9 @@ const App: FC = () => {
                     <Route
                         path='/list'
                         element={<ModelList
-                            modelName="Direccion"
-                            model={Address}
-                            customColumns={{
-                                city: "Ciudad",
-                                neighborhood: "Barrio",
-                                houseCode: "Codigo de casa",
-                                street: "Calle"
-                            }}
-                            onEdit={(item: BaseEntity) => console.log(item, "editing")}
+                            modelName="Empleados"
+                            model={AllEmployees}
+                            onDelete={deleteEmployee}
                         />}
                     />
                     <Route path='/people' element={<ClienteForm />} />
