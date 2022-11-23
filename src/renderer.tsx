@@ -15,8 +15,12 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ClienteForm from './components/Clientes';
 import EmpleadoForm from './components/Empleado';
+import ModelList from './components/ModelList';
+
+import { Address } from './model';
 
 import './renderer.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const appContainer = document.getElementById('app');
 
@@ -41,6 +45,15 @@ const App: FC = () => {
             <Navbar />
             <main>
                 <Routes>
+                    <Route
+                        path='/list'
+                        element={<ModelList
+                            modelName="Cliente"
+                            model={Address}
+                            ignoreProperties={["customers", "address", "employees"]}
+                            ignoreIds={true}
+                        />}
+                    />
                     <Route path='/people' element={<ClienteForm />} />
                     <Route path='/employees' element={<EmpleadoForm />} />
                     <Route path='/meds' element={<h1>Hello meds</h1>} />

@@ -1,4 +1,4 @@
-form {
+.cliente-form form {
     width: 480px;
     height: 500px;
     display: flex;
@@ -8,16 +8,16 @@ form {
     background: rgba(230, 223, 223, 0.29);
 }
 
-h1 {
+.cliente-form h1 {
     margin: 20px 0 20px 0;
 }
 
-label {
+.cliente-form label {
     margin: 10px 0;
     text-align: right;
 }
 
-input {
+.cliente-form input {
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 6px;
     width: 250px;
@@ -27,12 +27,12 @@ input {
     float: right;
 }
 
-input:focus {
+.cliente-form input:focus {
     outline: none;
     border: 1px solid #000;
 }
 
-button {
+.cliente-form button {
     width: 100px;
     height: 30px;
     border: none;
