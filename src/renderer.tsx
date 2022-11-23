@@ -21,6 +21,7 @@ import { Address } from './model';
 
 import './renderer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BaseEntity } from 'typeorm';
 
 const appContainer = document.getElementById('app');
 
@@ -56,6 +57,7 @@ const App: FC = () => {
                                 houseCode: "Codigo de casa",
                                 street: "Calle"
                             }}
+                            onEdit={(item: BaseEntity) => console.log(item, "editing")}
                         />}
                     />
                     <Route path='/people' element={<ClienteForm />} />

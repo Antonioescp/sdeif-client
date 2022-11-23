@@ -15,13 +15,15 @@ import { ConnectionStatus } from '../../store/Database';
 interface ModelListProperties {
     modelName: string,
     model: EntityTarget<ObjectLiteral>,
-    customColumns?: Record<string, string>
+    customColumns?: Record<string, string>,
+    onEdit?: (item: BaseEntity) => void
 }
 
 const ModelList: FC<ModelListProperties> = ({
     modelName,
     model,
-    customColumns
+    customColumns,
+    onEdit
 }) => {
 
     const databaseConnection = useSelector((state: RootState) => state.database.connection);
@@ -98,7 +100,12 @@ const ModelList: FC<ModelListProperties> = ({
             {rowItems}
             <td style={{ textAlign: 'center' }}>
                 <ButtonGroup aria-label="Opciones">
-                    <Button variant="success">Editar</Button>
+                    <Button
+                        variant="success"
+                        onClick={() => onEdit ? onEdit(item) : null}
+                    >
+                        Editar
+                    </Button>
                     <ActionButton
                         variant="danger"
                         action={onDelete}
