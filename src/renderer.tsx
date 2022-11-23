@@ -2,7 +2,7 @@
 // de typeorm funcionen correctamente
 import appDataSource from './services/DataSource';
 
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { store } from './store';
@@ -48,10 +48,14 @@ const App: FC = () => {
                     <Route
                         path='/list'
                         element={<ModelList
-                            modelName="Cliente"
+                            modelName="Direccion"
                             model={Address}
-                            ignoreProperties={["customers", "address", "employees"]}
-                            ignoreIds={true}
+                            customColumns={{
+                                city: "Ciudad",
+                                neighborhood: "Barrio",
+                                houseCode: "Codigo de casa",
+                                street: "Calle"
+                            }}
                         />}
                     />
                     <Route path='/people' element={<ClienteForm />} />

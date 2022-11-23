@@ -4,9 +4,10 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Table from 'react-bootstrap/Table';
+import ActionButton from '../ActionButton';
 
 import appDataSource from '../../services/DataSource';
-import { ObjectLiteral, EntityTarget } from "typeorm";
+import { ObjectLiteral, EntityTarget, BaseEntity } from "typeorm";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import { ConnectionStatus } from '../../store/Database';
@@ -14,11 +15,14 @@ import { ConnectionStatus } from '../../store/Database';
 interface ModelListProperties {
     modelName: string,
     model: EntityTarget<ObjectLiteral>,
-    ignoreProperties: string[],
-    ignoreIds: boolean
+    customColumns?: Record<string, string>
 }
 
-const ModelList: FC<ModelListProperties> = ({ modelName, model, ignoreProperties, ignoreIds }) => {
+const ModelList: FC<ModelListProperties> = ({
+    modelName,
+    model,
+    customColumns
+}) => {
 
     const databaseConnection = useSelector((state: RootState) => state.database.connection);
 
@@ -28,59 +32,80 @@ const ModelList: FC<ModelListProperties> = ({ modelName, model, ignoreProperties
     useEffect(() => {
         if (databaseConnection === ConnectionStatus.Active) {
             (async () => {
-                const repo = appDataSource.getRepository(model);
-                const allItems = await repo.find();
-                setItems(allItems);
-
-                const tableColumns = appDataSource.getMetadata(model).columns;
-                const newHeaders = tableColumns.map(col => {
-                    return col.databaseNameWithoutPrefixes
-                });
-                setHeaders(newHeaders);
+                setItems(await getAllItems());
+                setHeaders(getNewHeaders());
             })();
         }
     }, [databaseConnection]);
 
-    const filteredHeaders = headers.filter(header => {
-        let ignore = false;
+    const getAllItems = async (): Promise<ObjectLiteral[]> => {
+        const repo = appDataSource.getRepository(model);
+        const allItems = await repo.find();
+        return allItems;
+    }
 
-        ignore ||= ignoreProperties.includes(header);
-        ignore ||= (ignoreIds && header.toLowerCase().includes('id'));
+    const getNewHeaders = (): string[] => {
+        if (customColumns) {
+            const newHeaders = Object.values(customColumns);
+            newHeaders.push("Opciones");
+            return newHeaders;
+        } else {
+            const tableColumns = appDataSource.getMetadata(model).columns;
+            const newHeaders = tableColumns.map(col => {
+                return col.databaseNameWithoutPrefixes
+            });
+            newHeaders.push("Opciones");
+            return newHeaders;
+        }
+    };
 
-        return !ignore;
-    })
+    const getModelProperties = (): string[] => {
+        if (customColumns) {
+            return Object.keys(customColumns);
+        } else {
+            const tableColumns = appDataSource.getMetadata(model).columns;
+            const newHeaders = tableColumns.map(col => {
+                return col.databaseNameWithoutPrefixes
+            });
+            return newHeaders;
+        }
+    }
 
     const headersView = <tr>
-        {filteredHeaders.map(header => {
+        {headers.map(header => {
             return <th>{header}</th>;
         })}
-        <th>Opciones</th>
     </tr>;
 
-    const itemsView = items.map(item => {
-        const properties = Object.getOwnPropertyNames(item);
-        const filteredProperties = properties.filter(prop => {
-            let ignore = ignoreProperties.includes(prop)
-            ignore ||= ignoreIds && prop.toLowerCase().includes("id");
-            return !ignore;
-        });
+    const itemsView = items.map((item) => {
 
-        console.log(filteredProperties);
-
-        const rowItems = filteredProperties.map(prop => {
+        const modelProperties = getModelProperties();
+        const rowItems = modelProperties.map(prop => {
             return <td>
                 {item[prop]}
-            </td>
-        })
+            </td>;
+        });
+
+        const onDelete = async () => {
+            await item.remove();
+        };
+
+        const onDeleted = async () => {
+            setItems(await getAllItems());
+        }
 
         return <tr>
             {rowItems}
-            <td style={{
-                textAlign: 'center'
-            }}>
+            <td style={{ textAlign: 'center' }}>
                 <ButtonGroup aria-label="Opciones">
                     <Button variant="success">Editar</Button>
-                    <Button variant="danger">Borrar</Button>
+                    <ActionButton
+                        variant="danger"
+                        action={onDelete}
+                        onComplete={onDeleted}
+                    >
+                        Borrar
+                    </ActionButton>
                 </ButtonGroup>
             </td>
         </tr>;
