@@ -17,7 +17,7 @@ import ClienteForm from './components/Clientes';
 import EmpleadoForm from './components/Empleado';
 import ModelList from './components/ModelList';
 
-import { AllEmployees, AllCustomers } from './model/views';
+import { AllEmployees, AllCustomers, AllMedications } from './model/views';
 
 import './renderer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -58,12 +58,20 @@ const App: FC = () => {
                         path='/employees'
                         element={
                             <ModelList
-                                modelName="Empleados"
+                                modelName="Empleado"
                                 model={AllEmployees}
                             />
                         }
                     />
-                    <Route path='/meds' element={<h1>Hello meds</h1>} />
+                    <Route
+                        path='/meds'
+                        element={
+                            <ModelList
+                                modelName="Medicamento"
+                                model={AllMedications}
+                            />
+                        }
+                    />
                     <Route path='/sales' element={<h1>Hello sales</h1>} />
                 </Routes>
             </main>
