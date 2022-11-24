@@ -1,8 +1,8 @@
-import { 
-    Entity, 
-    Column, 
-    BaseEntity, 
-    PrimaryGeneratedColumn, 
+import {
+    Entity,
+    Column,
+    BaseEntity,
+    PrimaryGeneratedColumn,
     ManyToOne
 } from 'typeorm';
 import { Distributor } from './Distributor';

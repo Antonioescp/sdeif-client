@@ -14,6 +14,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import ModelList from './components/ModelList';
+import CompraForm from './components/Compra/CompraForm';
 import UpdateForm from './components/UpdateForm';
 
 
@@ -39,6 +40,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import InsumoForm from './components/Insumos/InsumoForm';
 import ClienteForm from './components/Clientes/ClienteForm';
+import { Distributor } from './model/Distributor';
 
 const appContainer = document.getElementById('app');
 
@@ -126,12 +128,11 @@ const App: FC = () => {
                     <Route
                         path='/employees'
                         element={
-                            /*<ModelList
+                            <ModelList
                                 modelName="Empleado"
                                 model={AllEmployees}
                                 onDelete={deleteEmployee}
-                            />*/
-                            <UpdateForm />
+                            />
                         }
                     />
                     <Route
@@ -141,22 +142,24 @@ const App: FC = () => {
                                 modelName="Medicamento"
                                 model={AllMedications}
                                 onDelete={deleteMedication}
-                            />
-                            <InsumoForm />*/
-                            <UpdateForm />
+                            />*/
+                            <InsumoForm />
                         }
                     />
                     <Route
                         path='/sales'
-                        element={
+                        element={/*
                             <ModelList
                                 modelName="Transaccion"
                                 model={AllTransactions}
                                 onDelete={deleteTransaction}
-                            />
+                            />*/
+                            <CompraForm />
                         }
                     />
+
                     <Route path='/others' element={othersView} />
+
                 </Routes>
             </main>
         </Router>

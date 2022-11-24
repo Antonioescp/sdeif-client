@@ -35,9 +35,9 @@ const EmpleadoForm: FC = () => {
     const EnviarDatos = (event: any) => {
 
         event.preventDefault();
-        const newAddress = new Address();
-        const newPerson = new Person();
-        const newEmployee = new Employee();
+        const newAddress: any = new Address();
+        const newPerson: any = new Person();
+        const newEmployee: any = new Employee();
         for (let i in datos) {
             if (i in newAddress) {
                 newAddress[i] = datos[i];
