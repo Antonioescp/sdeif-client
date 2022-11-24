@@ -50,6 +50,7 @@ const InsumoForm: FC = () => {
                     else {
                         const newCategory = new SupplyCategory();
                         newCategory.name = datosInsumo[i];
+                        newCategory.save();
                         newSupply[i] = newCategory;
                     }
                 }
@@ -64,6 +65,7 @@ const InsumoForm: FC = () => {
                     else {
                         const newlab = new Laboratory();
                         newlab.name = datosInsumo[i];
+                        newlab.save()
                         newProduct[i] = newlab;
                     }
                 }
