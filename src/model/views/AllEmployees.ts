@@ -5,6 +5,7 @@ import { Employee, Person, EmployeePosition } from "../.";
     expression: (dataSource: DataSource) => dataSource
         .createQueryBuilder()
         .select("person.name", "Nombre")
+        .addSelect("employee.id", "Id")
         .addSelect("person.lastname", "Apellido")
         .addSelect("person.phoneNumber", "Telefono")
         .addSelect("employee_position.title", "Cargo")
@@ -16,6 +17,9 @@ import { Employee, Person, EmployeePosition } from "../.";
         .innerJoin(Person, "person", "employee.personId = person.id")
     })
 export class AllEmployees {
+    @ViewColumn()
+    Id: number
+    
     @ViewColumn()
     Nombre: string
 

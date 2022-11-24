@@ -1,39 +1,75 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import { Customer } from '../../model/Customer';
+import { Person } from '../../model/Person';
+import { Address } from '../../model/Address';
+import Alert from 'react-bootstrap/Alert';
 import '../style/ClienteForm.css';
 
 
 const ClienteForm: FC = () => {
+    const [datos, setDatos] = useState<any[]>([]);
+
+    const InputChange = (event: any) => {
+        setDatos({
+            ...datos,
+            [event.target.name]: event.target.value
+        })
+    }
+    const EnviarDatos = (event: any) => {
+
+        event.preventDefault();
+        const newAddress = new Address();
+        const newPerson = new Person();
+        const newCustomer = new Customer();
+
+        for (let i in datos) {
+            if (i in newAddress) {
+                newAddress[i] = datos[i];
+            }
+            else if (i in newPerson) {
+                newPerson[i] = datos[i];
+            }
+            else if (i in newCustomer) {
+                newCustomer[i] = datos[i];
+            }
+        }
+        newPerson.address = newAddress;
+        newCustomer.person = newPerson;
+        newPerson.save();
+        newCustomer.save();
+    }
     return (
         <div className="cliente-form">
-            <form action='#'>
+
+            <form onSubmit={EnviarDatos}>
                 <h1>Clientes</h1>
                 <label>
                     Nombre:
-                    <input type="text" name='Nombre' placeholder="Juan" />
+                    <input type="text" name='name' placeholder="Juan" onChange={InputChange} />
                 </label>
                 <label>
                     Apellido:
-                    <input type="text" name='Apellido' placeholder="Perez" />
+                    <input type="text" name='lastname' placeholder="Perez" onChange={InputChange} />
                 </label>
                 <label>
                     Telefono:
-                    <input type="text" name='Telefono' placeholder="8888 9999" />
+                    <input type="text" name='phoneNumber' placeholder="8888 9999" onChange={InputChange} />
                 </label>
                 <label>
                     Ciudad:
-                    <input type="text" name='Ciudad' placeholder="Managua" />
+                    <input type="text" name='city' placeholder="Managua" onChange={InputChange} />
                 </label>
                 <label>
                     Barrio:
-                    <input type="text" name='Barrio' placeholder="El Doral" />
+                    <input type="text" name='neighborhood' placeholder="El Doral" onChange={InputChange} />
                 </label>
                 <label>
                     Calle:
-                    <input type="text" name='Calle' placeholder="Calle 1" />
+                    <input type="text" name='street' placeholder="Calle 1" onChange={InputChange} />
                 </label>
                 <label>
                     Casa:
-                    <input type="text" name='Casa' placeholder="X-24" />
+                    <input type="text" name='houseCode' placeholder="X-24" onChange={InputChange} />
                 </label>
                 <button type='submit'>Guardar</button>
             </form>

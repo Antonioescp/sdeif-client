@@ -11,14 +11,16 @@ import { ObjectLiteral, EntityTarget, BaseEntity } from "typeorm";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import { ConnectionStatus } from '../../store/Database';
+import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router-dom';
 
 interface ModelListProperties {
     modelName: string,
     model: EntityTarget<ObjectLiteral>,
     customColumns?: Record<string, string>,
-    onEdit?: (item: BaseEntity) => void,
-    onDelete?: (item: any) => void,
-    onDeleted?: (item: any) => void
+    onEdit?: (item: BaseEntity) => Promise<void>,
+    onDelete?: (item: any) => Promise<void>,
+    onDeleted?: (item: any) => Promise<void>
 }
 
 const ModelList: FC<ModelListProperties> = ({
@@ -37,12 +39,18 @@ const ModelList: FC<ModelListProperties> = ({
 
     useEffect(() => {
         if (databaseConnection === ConnectionStatus.Active) {
-            (async () => {
-                setItems(await getAllItems());
-                setHeaders(getNewHeaders());
-            })();
+            updateList();
         }
     }, [databaseConnection]);
+
+    useEffect(() => {
+        updateList();
+    }, [model, modelName])
+
+    const updateList = async () => {
+        setItems(await getAllItems());
+        setHeaders(getNewHeaders());
+    }
 
     const getAllItems = async (): Promise<ObjectLiteral[]> => {
         const repo = appDataSource.getRepository(model);
@@ -77,9 +85,9 @@ const ModelList: FC<ModelListProperties> = ({
         }
     }
 
-    const headersView = <tr>
+    const headersView = <tr key={uuidv4()}>
         {headers.map(header => {
-            return <th>{header}</th>;
+            return <th key={uuidv4()}>{header}</th>;
         })}
     </tr>;
 
@@ -89,7 +97,7 @@ const ModelList: FC<ModelListProperties> = ({
         const rowItems = modelProperties.map(prop => {
             const itemProp = item[prop];
             let value: string;
-            if (itemProp) {
+            if (itemProp !== undefined && itemProp !== null) {
                 if (itemProp instanceof Date) {
                     value = itemProp.toLocaleDateString();
                 } else {
@@ -100,7 +108,7 @@ const ModelList: FC<ModelListProperties> = ({
                 value = "Sin definir";
             }
 
-            return <td>
+            return <td key={uuidv4()}>
                 {value}
             </td>;
         });
@@ -110,7 +118,7 @@ const ModelList: FC<ModelListProperties> = ({
             setItems(await getAllItems());
         }
 
-        return <tr>
+        return <tr key={uuidv4()}>
             {rowItems}
             <td style={{ textAlign: 'center' }}>
                 <ButtonGroup aria-label="Opciones">
