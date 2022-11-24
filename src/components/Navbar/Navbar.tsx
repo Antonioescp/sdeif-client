@@ -6,7 +6,7 @@ import medsIcon from './imgs/medsIcon.png';
 import peopleIcon from './imgs/peopleIcon.png';
 import employeeIcon from './imgs/empIcon.png';
 import logo from './imgs/farmacia.png';
-import list from './imgs/list.png';
+import other from './imgs/other.png';
 
 const Navbar: FC = () => {
     return <nav>
@@ -38,6 +38,12 @@ const Navbar: FC = () => {
                 imgAlt='sales'
                 linkTo='sales'
                 info='Transacciones'
+            />
+            <Option
+                imgSrc={other}
+                imgAlt='otros'
+                linkTo='others'
+                info='Otros registros'
             />
         </ul>
     </nav >;

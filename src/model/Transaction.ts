@@ -4,7 +4,8 @@ import {
     ManyToOne,
     JoinColumn,
     PrimaryGeneratedColumn,
-    OneToMany
+    OneToMany,
+    Column
 } from 'typeorm';
 import { Customer } from './Customer';
 import { ProductToTransaction } from './ProductToTransaction';
@@ -21,6 +22,12 @@ export class Transaction extends BaseEntity {
     })
     @JoinColumn()
     customer: Customer;
+
+    @Column({
+        nullable: false,
+        type: 'date'
+    })
+    date: Date
 
     @OneToMany(type => Purchase, (p: Purchase) => p.transaction)
     purchases: Purchase[];

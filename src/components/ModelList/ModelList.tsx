@@ -20,7 +20,8 @@ interface ModelListProperties {
     customColumns?: Record<string, string>,
     onEdit?: (item: BaseEntity) => Promise<void>,
     onDelete?: (item: any) => Promise<void>,
-    onDeleted?: (item: any) => Promise<void>
+    onDeleted?: (item: any) => Promise<void>,
+    onCreate?: () => void
 }
 
 const ModelList: FC<ModelListProperties> = ({
@@ -29,7 +30,8 @@ const ModelList: FC<ModelListProperties> = ({
     customColumns,
     onEdit,
     onDelete,
-    onDeleted
+    onDeleted,
+    onCreate
 }) => {
 
     const databaseConnection = useSelector((state: RootState) => state.database.connection);
@@ -100,6 +102,14 @@ const ModelList: FC<ModelListProperties> = ({
             if (itemProp !== undefined && itemProp !== null) {
                 if (itemProp instanceof Date) {
                     value = itemProp.toLocaleDateString();
+                } else if (!isNaN(itemProp)) {
+                    const number = Number(itemProp);
+                    if (number % 1 === 0) {
+                        value = number.toString();
+                    }
+                    else {
+                        value = number.toFixed(2).toString();
+                    }
                 } else {
                     value = itemProp.toString();
                 }
@@ -142,7 +152,7 @@ const ModelList: FC<ModelListProperties> = ({
 
     return <Stack className="model-list">
         <Stack className="panel" direction='horizontal' gap={2}>
-            <Button as="a" variant="primary" className="ms-auto">
+            <Button as="a" variant="primary" className="ms-auto" onClick={onCreate}>
                 Crear {modelName}
             </Button>
         </Stack>
