@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { Customer } from '../../model/Customer';
 import { Person } from '../../model/Person';
 import { Address } from '../../model/Address';
-import Alert from 'react-bootstrap/Alert';
 import '../style/ClienteForm.css';
 
 
@@ -28,9 +27,6 @@ const ClienteForm: FC = () => {
             }
             else if (i in newPerson) {
                 newPerson[i] = datos[i];
-            }
-            else if (i in newCustomer) {
-                newCustomer[i] = datos[i];
             }
         }
         newPerson.address = newAddress;
