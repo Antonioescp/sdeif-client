@@ -29,7 +29,7 @@ export class EmployeePosition extends BaseEntity {
     title: string;
 
     @Column({
-        type:'decimal',
+        type: 'decimal',
         nullable: false
     })
     @IsNumber({
