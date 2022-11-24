@@ -14,7 +14,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import ModelList from './components/ModelList';
-import updateform from './components/udapte/udapteform';
+import UpdateForm from './components/UpdateForm';
 
 
 import { AllEmployees, AllCustomers, AllMedications, AllTransactions } from './model/views';
@@ -120,18 +120,18 @@ const App: FC = () => {
                                 modelName="Cliente"
                                 model={AllCustomers}
                                 onDelete={deleteCustomer}
-                                onCreate={() => { <ClienteForm /> }}
                             />
                         }
                     />
                     <Route
                         path='/employees'
                         element={
-                            <ModelList
+                            /*<ModelList
                                 modelName="Empleado"
                                 model={AllEmployees}
                                 onDelete={deleteEmployee}
-                            />
+                            />*/
+                            <UpdateForm />
                         }
                     />
                     <Route
@@ -141,8 +141,9 @@ const App: FC = () => {
                                 modelName="Medicamento"
                                 model={AllMedications}
                                 onDelete={deleteMedication}
-                            />*/
-                            <InsumoForm />
+                            />
+                            <InsumoForm />*/
+                            <UpdateForm />
                         }
                     />
                     <Route

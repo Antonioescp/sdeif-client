@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import '../style/ClienteForm.css';
 import './updateform.css';
 
-const updateform: FC = () => {
-    return(
+const UpdateForm: FC = () => {
+    return (
         <div className='Update-form'>
-                <form action='#'>
+            <form action='#'>
                 <h1>Clientes</h1>
                 <label>
                     Nombre:
@@ -41,4 +41,4 @@ const updateform: FC = () => {
     )
 }
 
-export default updateform;
+export default UpdateForm;
