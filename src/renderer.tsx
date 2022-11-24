@@ -32,8 +32,8 @@ import Stack from 'react-bootstrap/Stack';
 
 import * as models from './model';
 import { useState } from 'react';
-import { JsxElement } from 'typescript';
 import { BaseEntity } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 const appContainer = document.getElementById('app');
 
@@ -63,7 +63,7 @@ const App: FC = () => {
 
         return Object.values(models).map((model) => {
             const modelName = appDataSource.getMetadata(model).name;
-            return <Tab eventKey={modelName} title={modelName}>
+            return <Tab eventKey={modelName} title={modelName} key={uuidv4()}>
                 <ModelList
                     modelName={modelName}
                     model={model}
