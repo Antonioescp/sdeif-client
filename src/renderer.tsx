@@ -14,6 +14,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import ModelList from './components/ModelList';
+import updateform from './components/udapte/udapteform';
 
 
 import { AllEmployees, AllCustomers, AllMedications, AllTransactions } from './model/views';
