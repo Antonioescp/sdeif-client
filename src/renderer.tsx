@@ -16,6 +16,7 @@ import Navbar from './components/Navbar';
 import ClienteForm from './components/Clientes';
 import EmpleadoForm from './components/Empleado';
 import ModelList from './components/ModelList';
+import updateform from './components/udapte/udapteform';
 
 import { AllEmployees } from './model/views';
 
