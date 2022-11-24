@@ -1,8 +1,8 @@
-import { 
-    Entity, 
-    Column, 
-    BaseEntity, 
-    PrimaryGeneratedColumn, 
+import {
+    Entity,
+    Column,
+    BaseEntity,
+    PrimaryGeneratedColumn,
     ManyToOne,
     JoinColumn
 } from 'typeorm';
@@ -17,7 +17,7 @@ export class Supply extends BaseEntity {
     id: number;
 
     @ManyToOne(type => Product, (p: Product) => p.supplies, {
-        nullable: false
+        nullable: false, cascade: true
     })
     @JoinColumn()
     product: Product;

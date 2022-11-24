@@ -15,6 +15,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ModelList from './components/ModelList';
 
+
 import { AllEmployees, AllCustomers, AllMedications, AllTransactions } from './model/views';
 
 import './renderer.css';
@@ -34,6 +35,9 @@ import * as models from './model';
 import { useState } from 'react';
 import { BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+
+import InsumoForm from './components/Insumos/InsumoForm';
+import ClienteForm from './components/Clientes/ClienteForm';
 
 const appContainer = document.getElementById('app');
 
@@ -115,6 +119,7 @@ const App: FC = () => {
                                 modelName="Cliente"
                                 model={AllCustomers}
                                 onDelete={deleteCustomer}
+                                onCreate={() => { <ClienteForm /> }}
                             />
                         }
                     />
@@ -130,12 +135,13 @@ const App: FC = () => {
                     />
                     <Route
                         path='/meds'
-                        element={
+                        element={/*
                             <ModelList
                                 modelName="Medicamento"
                                 model={AllMedications}
                                 onDelete={deleteMedication}
-                            />
+                            />*/
+                            <InsumoForm />
                         }
                     />
                     <Route

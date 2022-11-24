@@ -55,9 +55,7 @@ export class Product extends BaseEntity {
     })
     distributorToProducts: DistributorToProduct[];
 
-    @OneToMany(type => Supply, (s: Supply) => s.product, {
-        cascade: true
-    })
+    @OneToMany(type => Supply, (s: Supply) => s.product)
     supplies: Supply[];
 
     @OneToMany(type => Medication, (m: Medication) => m.product, {
