@@ -18,7 +18,8 @@ export class Employee extends BaseEntity {
     id: number;
 
     @ManyToOne(type => Person, (p: Person) => p.employees, {
-        nullable: false
+        nullable: false,
+        cascade: true
     })
     @JoinColumn()
     person: Person;

@@ -18,9 +18,9 @@ const ClienteForm: FC = () => {
     const EnviarDatos = (event: any) => {
 
         event.preventDefault();
-        const newAddress = new Address();
-        const newPerson = new Person();
-        const newCustomer = new Customer();
+        const newAddress: any = new Address();
+        const newPerson: any = new Person();
+        const newCustomer: any = new Customer();
 
         for (let i in datos) {
             if (i in newAddress) {

@@ -51,9 +51,7 @@ export class Person extends BaseEntity {
     @JoinColumn()
     address: Address | null;
 
-    @OneToMany(type => Employee, (employee: Employee) => employee.person, {
-        cascade: true
-    })
+    @OneToMany(type => Employee, (employee: Employee) => employee.person)
     employees: Employee[];
 
     @OneToMany(type => Customer, (c: Customer) => c.person, {
