@@ -1,10 +1,10 @@
-import { 
-    Entity, 
-    BaseEntity, 
-    Column, 
-    PrimaryGeneratedColumn, 
-    ManyToOne, 
-    JoinColumn, 
+import {
+    Entity,
+    BaseEntity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    JoinColumn,
     OneToMany
 } from "typeorm";
 import { Address } from "./Address";

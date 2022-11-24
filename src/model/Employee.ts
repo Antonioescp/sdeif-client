@@ -1,7 +1,7 @@
 import {
     Entity,
     BaseEntity,
-    ManyToOne, 
+    ManyToOne,
     JoinColumn,
     Column,
     PrimaryGeneratedColumn,
@@ -25,7 +25,7 @@ export class Employee extends BaseEntity {
     person: Person;
 
     @ManyToOne(type => EmployeePosition, (ep: EmployeePosition) => ep.employees, {
-        nullable: false
+        nullable: false, cascade: true
     })
     @JoinColumn()
     position: EmployeePosition;
