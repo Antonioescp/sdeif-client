@@ -73,11 +73,6 @@ const ClienteForm: FC = () => {
                 </label>
                 <button type='submit'>Guardar</button>
             </form>
-            <Alert variant="success">
-                <p className="mb-0">
-                    Dato Ingresado Correctamente
-                </p>
-            </Alert>
         </div>
     );
 };
