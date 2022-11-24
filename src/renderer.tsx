@@ -17,7 +17,7 @@ import ClienteForm from './components/Clientes';
 import EmpleadoForm from './components/Empleado';
 import ModelList from './components/ModelList';
 
-import { AllEmployees } from './model/views';
+import { AllEmployees, AllCustomers } from './model/views';
 
 import './renderer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -40,25 +40,29 @@ const App: FC = () => {
             });
     }, []);
 
-    const deleteEmployee = async (item: any) => {
-        console.log("Delete clicked with", item);
-    }
-
     return <>
         <Router>
             <Navbar />
             <main>
                 <Routes>
                     <Route
-                        path='/list'
-                        element={<ModelList
-                            modelName="Empleados"
-                            model={AllEmployees}
-                            onDelete={deleteEmployee}
-                        />}
+                        path='/people'
+                        element={
+                            <ModelList
+                                modelName="Cliente"
+                                model={AllCustomers}
+                            />
+                        }
                     />
-                    <Route path='/people' element={<ClienteForm />} />
-                    <Route path='/employees' element={<EmpleadoForm />} />
+                    <Route
+                        path='/employees'
+                        element={
+                            <ModelList
+                                modelName="Empleados"
+                                model={AllEmployees}
+                            />
+                        }
+                    />
                     <Route path='/meds' element={<h1>Hello meds</h1>} />
                     <Route path='/sales' element={<h1>Hello sales</h1>} />
                 </Routes>

@@ -16,12 +16,6 @@ const Navbar: FC = () => {
         </div>
         <ul>
             <Option
-                imgSrc={list}
-                imgAlt='list'
-                linkTo='list'
-                info='Lista'
-            />
-            <Option
                 imgSrc={peopleIcon}
                 imgAlt='people'
                 linkTo='people'
