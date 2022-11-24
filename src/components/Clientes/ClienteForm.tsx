@@ -31,7 +31,6 @@ const ClienteForm: FC = () => {
         }
         newPerson.address = newAddress;
         newCustomer.person = newPerson;
-        newPerson.save();
         newCustomer.save();
     }
     return (

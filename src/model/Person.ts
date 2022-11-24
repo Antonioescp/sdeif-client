@@ -54,8 +54,6 @@ export class Person extends BaseEntity {
     @OneToMany(type => Employee, (employee: Employee) => employee.person)
     employees: Employee[];
 
-    @OneToMany(type => Customer, (c: Customer) => c.person, {
-        cascade: true
-    })
+    @OneToMany(type => Customer, (c: Customer) => c.person)
     customers: Customer[];
 }

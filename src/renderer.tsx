@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 
 import { useDispatch } from 'react-redux';
 import { ConnectionStatus, updateConnectionStatus } from './store/Database';
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import ModelList from './components/ModelList';
@@ -40,7 +40,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import InsumoForm from './components/Insumos/InsumoForm';
 import ClienteForm from './components/Clientes/ClienteForm';
-import { Distributor } from './model/Distributor';
 
 const appContainer = document.getElementById('app');
 
@@ -49,6 +48,7 @@ const App: FC = () => {
     const dispatch = useDispatch();
 
     const [modelTabs, setModelTabs] = useState<any[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         appDataSource.initialize()
@@ -104,6 +104,18 @@ const App: FC = () => {
         await transaction?.remove();
     }
 
+    const newInsumo = () => {
+        navigate('/meds/new');
+    };
+
+    const newVenta = () => {
+        navigate('/sales/new');
+    };
+
+    const newCustomer = () => {
+        navigate('/people/new');
+    };
+
     const othersView = <Stack>
         <Tabs id="left-tabs-example" className='mb-3' justify>
             {modelTabs}
@@ -111,58 +123,75 @@ const App: FC = () => {
     </Stack>;
 
     return <>
-        <Router>
-            <Navbar />
-            <main>
-                <Routes>
-                    <Route
-                        path='/people'
-                        element={
-                            <ModelList
-                                modelName="Cliente"
-                                model={AllCustomers}
-                                onDelete={deleteCustomer}
-                            />
-                        }
-                    />
-                    <Route
-                        path='/employees'
-                        element={
-                            <ModelList
-                                modelName="Empleado"
-                                model={AllEmployees}
-                                onDelete={deleteEmployee}
-                            />
-                        }
-                    />
-                    <Route
-                        path='/meds'
-                        element={/*
-                            <ModelList
-                                modelName="Medicamento"
-                                model={AllMedications}
-                                onDelete={deleteMedication}
-                            />*/
-                            <InsumoForm />
-                        }
-                    />
-                    <Route
-                        path='/sales'
-                        element={/*
-                            <ModelList
-                                modelName="Transaccion"
-                                model={AllTransactions}
-                                onDelete={deleteTransaction}
-                            />*/
-                            <CompraForm />
-                        }
-                    />
+        <Navbar />
+        <main>
+            <Routes>
+                <Route
+                    path='/people/new'
+                    element={
+                        <ClienteForm />
+                    }
+                />
+                <Route
+                    path='/people'
+                    element={
+                        <ModelList
+                            modelName="Cliente"
+                            model={AllCustomers}
+                            onDelete={deleteCustomer}
+                            onCreate={newCustomer}
+                        />
+                    }
+                />
+                <Route
+                    path='/employees'
+                    element={
+                        <ModelList
+                            modelName="Empleado"
+                            model={AllEmployees}
+                            onDelete={deleteEmployee}
+                        />
+                    }
+                />
+                <Route
+                    path='/meds'
+                    element={
+                        <ModelList
+                            modelName="Medicamento"
+                            model={AllMedications}
+                            onDelete={deleteMedication}
+                            onCreate={newInsumo}
+                        />
+                    }
+                />
+                <Route
+                    path='/meds/new'
+                    element={
+                        <InsumoForm />
+                    }
+                />
+                <Route
+                    path='/sales/new'
+                    element={
+                        <CompraForm />
+                    }
+                />
+                <Route
+                    path='/sales'
+                    element={
+                        <ModelList
+                            modelName="Transaccion"
+                            model={AllTransactions}
+                            onDelete={deleteTransaction}
+                            onCreate={newVenta}
+                        />
+                    }
+                />
 
-                    <Route path='/others' element={othersView} />
+                <Route path='/others' element={othersView} />
 
-                </Routes>
-            </main>
-        </Router>
+            </Routes>
+        </main>
     </>;
 };
 
@@ -170,7 +199,9 @@ if (appContainer) {
     const root = ReactDOM.createRoot(appContainer);
     root.render(
         <Provider store={store}>
-            <App />
+            <Router>
+                <App />
+            </Router>
         </Provider>
     );
 }

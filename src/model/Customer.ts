@@ -16,7 +16,8 @@ export class Customer extends BaseEntity {
     id: number;
 
     @ManyToOne(type => Person, (p: Person) => p.customers, {
-        nullable: false
+        nullable: false,
+        cascade: true
     })
     @JoinColumn()
     person: Person;
